@@ -1,8 +1,7 @@
+const logController = require('../controllers/log.controller')
+
 const logRoutes = (server, app) => {
-  server.get('/hfswapi/getLogs', async (req, res) => {
-    const data = await app.db.logging.findAll()
-    res.send(data)
-  })
+  server.get('/hfswapi/getLogs', logController.get)
 }
 
 module.exports = { logRoutes }

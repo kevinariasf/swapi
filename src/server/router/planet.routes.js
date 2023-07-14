@@ -1,11 +1,12 @@
-const planetRoutes = (server, app) => {
-  server.get('/hfswapi/getPlanet/:id', async (req, res) => {
-    res.sendStatus(501)
-  })
+const planetController = require('../controllers/planet.controller')
 
-  server.get('/hfswapi/getWeightOnPlanetRandom', async (req, res) => {
-    res.sendStatus(501)
-  })
+const planetRoutes = (server, app) => {
+  server.get('/hfswapi/getPlanet/:id', planetController.get)
+
+  server.get(
+    '/hfswapi/getWeightOnPlanetRandom',
+    planetController.getWeightOnPlanetRandom
+  )
 }
 
 module.exports = { planetRoutes }

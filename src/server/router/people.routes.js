@@ -1,7 +1,7 @@
+const peopleController = require('../controllers/people.controller')
+
 const peopleRoutes = (server, app) => {
-  server.get('/hfswapi/getPeople/:id', async (req, res) => {
-    res.sendStatus(501)
-  })
+  server.get('/hfswapi/getPeople/:id', peopleController.get)
 }
 
 module.exports = { peopleRoutes }
