@@ -1,5 +1,6 @@
 const { peopleFactory } = require('../../app/People')
-const { _isWookieeFormat } = require('./utils')
+const { planetFactory } = require('../../app/Planet')
+const { _isWookieeFormat, generateRandom } = require('./utils')
 
 const get = async (req, res) => {
   const language = _isWookieeFormat(req) ? 'wookiee' : false
@@ -7,4 +8,24 @@ const get = async (req, res) => {
   res.status(200).json(people)
 }
 
-module.exports = { get }
+const getWeightOnPlanetRandom = async (req, res) => {
+  const peopleId = generateRandom(82)
+  const planetId = generateRandom(60)
+  const people = await peopleFactory(peopleId)
+  const planet = await planetFactory(planetId)
+  if (people.getHomeworldId() == planet.getId()) {
+    res.status(500).json('Planet is the home planet')
+  } else if (!planet.getGravity() || planet.getGravity() === 'unknown') {
+    res.status(500).json('Planet gravity is unknown')
+  } else if (!people.getMass() || people.getMass() === 'unknown') {
+    res.status(500).json('People mass is unknown')
+  } else {
+    res.status(200).json({
+      people,
+      planet,
+      weightOnPlanet: people.getWeightOnPlanet(planet.getGravity()),
+    })
+  }
+}
+
+module.exports = { get, getWeightOnPlanetRandom }

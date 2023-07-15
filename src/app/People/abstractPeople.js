@@ -33,8 +33,8 @@ class AbstractPeople {
     return this.homeworldId
   }
 
-  getWeightOnPlanet(planetId) {
-    throw new Error('To be implemented')
+  getWeightOnPlanet(planetGravity) {
+    return this.mass * planetGravity
   }
 }
 

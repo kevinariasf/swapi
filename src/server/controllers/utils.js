@@ -5,4 +5,10 @@ const _isWookieeFormat = (req) => {
   return false
 }
 
-module.exports = { _isWookieeFormat }
+function generateRandom(maxLimit = 100) {
+  let random = Math.random() * maxLimit
+  random = Math.floor(random)
+  return random
+}
+
+module.exports = { _isWookieeFormat, generateRandom }

@@ -10,8 +10,4 @@ const get = async (req, res) => {
   }
 }
 
-const getWeightOnPlanetRandom = async (req, res) => {
-  res.sendStatus(501)
-}
-
-module.exports = { get, getWeightOnPlanetRandom }
+module.exports = { get }
