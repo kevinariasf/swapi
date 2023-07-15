@@ -1,17 +1,50 @@
+const app = require('../')
 class Planet {
-    constructor(id){
-        throw new Error('To be implemented');
+  constructor(id) {
+    this.id = id
+  }
+
+  async init() {
+    let planet = await app.db.swPlanet.findOne({
+      where: { id: this.getId() },
+    })
+    if (!planet) {
+      const planetData = await app.swapiFunctions.genericRequest(
+        `https://swapi.dev/api/planets/${this.id}`,
+        'GET',
+        null,
+        true
+      )
+      console.log('------------------')
+      console.log(planetData)
+      if (planetData.detail === 'Not found') {
+        throw new Error('Planet not found')
+      }
+
+      const gravityValue = planetData.gravity.split(' ')[0]
+
+      planet = await app.db.swPlanet.create({
+        id: planetData.id,
+        name: planetData.name,
+        gravity: isNaN(gravityValue) ? null : gravityValue,
+      })
     }
 
-    async init(){
-        throw new Error('To be implemented');
-    }
+    this.name = planet.name
+    this.gravity = planet.gravity
+  }
 
-    getName() {
-        return this.name;
-    }
+  getId() {
+    return this.id
+  }
 
-    getGravity() {
-        return this.gravity;
-    }
+  getName() {
+    return this.name
+  }
+
+  getGravity() {
+    return this.gravity
+  }
 }
+
+module.exports = Planet
