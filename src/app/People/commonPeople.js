@@ -20,20 +20,27 @@ class CommonPeople extends AbstractPeople {
         null,
         true
       )
+
+      if (peopleData.detail === 'Not found') {
+        throw new Error('People not found')
+      }
+
       const homeworldData = await app.swapiFunctions.genericRequest(
         peopleData.homeworld,
         'GET',
         null,
         true
       )
-
       people = await app.db.swPeople.create({
         id: peopleData.id,
         name: peopleData.name,
         mass: peopleData.mass,
         height: peopleData.height,
-        homeworld_name: homeworldData.name,
-        homeworld_id: getIdOnUrl(peopleData.homeworld),
+        [homeworld_name]: homeworldData.name,
+        [homeworld_id]: getIdOnUrl(peopleData.homeworld),
+      })
+      let newpeople = await app.db.swPeople.findOne({
+        where: { id: this.getId() },
       })
     }
 

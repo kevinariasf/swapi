@@ -15,6 +15,9 @@ class WookieePeople extends AbstractPeople {
       null,
       true
     )
+    if (peopleData.detail === 'Not found') {
+      throw new Error('People not found')
+    }
     const homeworldId = getIdOnUrl(peopleData.acooscwoohoorcanwa)
     const homeworldData = await app.swapiFunctions.genericRequest(
       `https://swapi.dev/api/planets/${homeworldId}?format=wookiee`,

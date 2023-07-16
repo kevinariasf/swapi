@@ -15,8 +15,6 @@ class Planet {
         null,
         true
       )
-      console.log('------------------')
-      console.log(planetData)
       if (planetData.detail === 'Not found') {
         throw new Error('Planet not found')
       }
