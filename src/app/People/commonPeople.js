@@ -14,6 +14,7 @@ class CommonPeople extends AbstractPeople {
       where: { id: this.getId() },
     })
     if (!people) {
+      console.log('NOOOO EXISTE')
       const peopleData = await app.swapiFunctions.genericRequest(
         `https://swapi.dev/api/people/${this.id}`,
         'GET',
@@ -32,18 +33,14 @@ class CommonPeople extends AbstractPeople {
         true
       )
       people = await app.db.swPeople.create({
-        id: peopleData.id,
+        id: this.id,
         name: peopleData.name,
         mass: peopleData.mass,
         height: peopleData.height,
-        [homeworld_name]: homeworldData.name,
-        [homeworld_id]: getIdOnUrl(peopleData.homeworld),
-      })
-      let newpeople = await app.db.swPeople.findOne({
-        where: { id: this.getId() },
+        homeworld_name: homeworldData.name,
+        homeworld_id: getIdOnUrl(peopleData.homeworld),
       })
     }
-
     this.name = people.name
     this.mass = people.mass
     this.height = people.height

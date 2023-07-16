@@ -9,6 +9,7 @@ class Planet {
       where: { id: this.getId() },
     })
     if (!planet) {
+      console.log('NOOOO EXISTE')
       const planetData = await app.swapiFunctions.genericRequest(
         `https://swapi.dev/api/planets/${this.id}`,
         'GET',
@@ -22,7 +23,7 @@ class Planet {
       const gravityValue = planetData.gravity.split(' ')[0]
 
       planet = await app.db.swPlanet.create({
-        id: planetData.id,
+        id: this.id,
         name: planetData.name,
         gravity: isNaN(gravityValue) ? null : gravityValue,
       })
