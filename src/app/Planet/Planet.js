@@ -9,7 +9,6 @@ class Planet {
       where: { id: this.getId() },
     })
     if (!planet) {
-      console.log('NOOOO EXISTE')
       const planetData = await app.swapiFunctions.genericRequest(
         `https://swapi.dev/api/planets/${this.id}`,
         'GET',

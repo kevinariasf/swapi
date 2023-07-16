@@ -14,7 +14,6 @@ class CommonPeople extends AbstractPeople {
       where: { id: this.getId() },
     })
     if (!people) {
-      console.log('NOOOO EXISTE')
       const peopleData = await app.swapiFunctions.genericRequest(
         `https://swapi.dev/api/people/${this.id}`,
         'GET',

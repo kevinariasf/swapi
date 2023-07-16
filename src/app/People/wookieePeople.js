@@ -1,6 +1,6 @@
 const AbstractPeople = require('./abstractPeople')
 const app = require('../')
-const { getIdOnUrl } = require('./utils')
+const { getIdOnUrl, WOOKIE_LANGUAGE } = require('./utils')
 
 class WookieePeople extends AbstractPeople {
   constructor(id) {
@@ -25,11 +25,11 @@ class WookieePeople extends AbstractPeople {
       null,
       true
     )
-    this.whrascwo = peopleData.whrascwo
-    this.scracc = peopleData.scracc
-    this.acwoahrracao = peopleData.acwoahrracao
-    this.acooscwoohoorcanwaWhrascwo = homeworldData.whrascwo
-    this.acooscwoohoorcanwaId = homeworldId
+    this[WOOKIE_LANGUAGE.NAME] = peopleData[WOOKIE_LANGUAGE.NAME]
+    this[WOOKIE_LANGUAGE.MASS] = peopleData[WOOKIE_LANGUAGE.MASS]
+    this[WOOKIE_LANGUAGE.HEIGHT] = peopleData[WOOKIE_LANGUAGE.HEIGHT]
+    this[WOOKIE_LANGUAGE.HOMEWORLD_NAME] = peopleData[WOOKIE_LANGUAGE.NAME]
+    this[WOOKIE_LANGUAGE.HOMEWORLD_ID] = homeworldId
   }
 }
 
