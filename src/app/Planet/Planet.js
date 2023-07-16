@@ -1,13 +1,13 @@
 const app = require('../')
+const planetRepository = require('../repository/planet.repository')
+
 class Planet {
   constructor(id) {
     this.id = id
   }
 
   async init() {
-    let planet = await app.db.swPlanet.findOne({
-      where: { id: this.getId() },
-    })
+    let planet = await planetRepository.find(this.getId())
     if (!planet) {
       const planetData = await app.swapiFunctions.genericRequest(
         `https://swapi.dev/api/planets/${this.id}`,
@@ -20,12 +20,8 @@ class Planet {
       }
 
       const gravityValue = planetData.gravity.split(' ')[0]
-
-      planet = await app.db.swPlanet.create({
-        id: this.id,
-        name: planetData.name,
-        gravity: isNaN(gravityValue) ? null : gravityValue,
-      })
+      const gravity = isNaN(gravityValue) ? null : gravityValue
+      planet = await planetRepository.create(this.id, planetData.name, gravity)
     }
 
     this.name = planet.name

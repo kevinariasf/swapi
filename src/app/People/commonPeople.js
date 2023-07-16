@@ -1,4 +1,5 @@
 const app = require('../')
+const peopleRepository = require('../repository/people.repository')
 const { getIdOnUrl } = require('./utils')
 
 const AbstractPeople = require('./abstractPeople')
@@ -10,9 +11,7 @@ class CommonPeople extends AbstractPeople {
   }
 
   async init() {
-    let people = await app.db.swPeople.findOne({
-      where: { id: this.getId() },
-    })
+    let people = await peopleRepository.find(this.getId())
     if (!people) {
       const peopleData = await app.swapiFunctions.genericRequest(
         `https://swapi.dev/api/people/${this.id}`,
@@ -31,14 +30,14 @@ class CommonPeople extends AbstractPeople {
         null,
         true
       )
-      people = await app.db.swPeople.create({
-        id: this.id,
-        name: peopleData.name,
-        mass: peopleData.mass,
-        height: peopleData.height,
-        homeworld_name: homeworldData.name,
-        homeworld_id: getIdOnUrl(peopleData.homeworld),
-      })
+      people = await peopleRepository.create(
+        this.id,
+        peopleData.name,
+        peopleData.mass,
+        peopleData.height,
+        homeworldData.name,
+        getIdOnUrl(peopleData.homeworld)
+      )
     }
     this.name = people.name
     this.mass = people.mass

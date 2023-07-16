@@ -1,3 +1,5 @@
+const loggingRepository = require('../../app/repository/logging.repository')
+
 const loggingMiddleware = (db) => (req, res, next) => {
   const ip = (
     req.headers['x-forwarded-for'] ||
@@ -11,11 +13,7 @@ const loggingMiddleware = (db) => (req, res, next) => {
   // Persist this info on DB
   const action = originalUrl.split('/')[2]
   if (action != 'getLogs') {
-    db.logging.create({
-      action: originalUrl.split('/')[2],
-      header: headers,
-      ip,
-    })
+    loggingRepository.create(action, headers, ip)
   }
   next()
 }
